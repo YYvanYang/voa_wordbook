@@ -12,7 +12,7 @@ fi
 unset $(grep -v '^#' .env | sed -E 's/(.*)=.*/\1/' | xargs)
 export $(grep -v '^#' .env | xargs)
 
-docker build -t voa_wordbook .
+docker build -t voa/wordbook .
 
 echo "Remove unused images."
 docker image prune --force
