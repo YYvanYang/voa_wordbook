@@ -1,0 +1,20 @@
+version: '3'
+services:
+  node:
+    image: ${IMAGE_NAME}
+    container_name: ${CONTAINER_NAME}
+    environment:
+      - NODE_ENV=production
+      - VIRTUAL_HOST=${DOMAINS}
+      - LETSENCRYPT_HOST=${DOMAINS}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    restart: unless-stopped
+    ### IMPORTANT
+    # Expose ports without publishing them to the host machine - they’ll only be accessible to linked services. Only the internal port can be specified.
+    expose:
+      - "10080"
+
+networks:
+  default:
+    external:
+      name: ${NETWORK}
