@@ -91,7 +91,7 @@ export default function Word({
         <Card key={node.name} className={classes.card}>
           <CardContent>
             <Typography variant="h5" component="h2">
-              {Title}
+              {Title}{' '}
 
               <IconButton
                 size="small"
