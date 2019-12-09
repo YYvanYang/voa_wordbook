@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
@@ -32,20 +32,56 @@ export default function Word({
 }) {
   const classes = useStyles()
   const audioEl = useRef(null)
+  const [definition, setDefinition] = useState("")
+  const [iconColor, setIconColor] = useState("secondary")
 
-  //   https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Media_events
-  // TODO
-  //   useEffect(() => {
-  // myAudioElement.addEventListener("canplaythrough", event => {
-  //     /* the audio is now playable; play it if permissions allow */
-  //     myAudioElement.play();
-  //   });
-  //   })
+  useEffect(() => {
+    function formatText(text) {
+      const pattern = /(.+)\s(Definition:)\s(\2.+)/
+      const regex = new RegExp(pattern, "ig")
+
+      let array1 = regex.exec(text)
+
+      if (array1 !== null) {
+        let def = array1[3]
+
+        if (def) {
+          def = def
+            .replace(/\s{5,}/g, "\n")
+            .replace(/(Synonyms:)\s?\1/, "$1")
+            .replace(/(Examples:)\s?\1/, "$1")
+          setDefinition(def)
+        }
+      }
+    }
+
+    formatText(SlideText)
+  }, [SlideText])
+
+  useEffect(() => {
+    let ele = audioEl.current
+    if (ele) {
+      ele.addEventListener("ended", reset)
+    }
+
+    function reset() {
+      setIconColor("secondary")
+    }
+
+    return () => {
+      if (ele) {
+        ele.removeEventListener("ended", reset)
+      }
+    }
+  }, [audioEl.current])
+
   function onPlay() {
     if (audioEl.current.canplay || audioEl.current.paused) {
       audioEl.current.play()
+      setIconColor("primary")
     } else {
       audioEl.current.pause()
+      setIconColor("secondary")
     }
   }
   return (
@@ -59,7 +95,7 @@ export default function Word({
 
               <IconButton
                 size="small"
-                color="secondary"
+                color={iconColor}
                 aria-label="play"
                 onClick={onPlay}
               >
@@ -71,11 +107,19 @@ export default function Word({
                 <source src={node.publicURL} type="audio/mpeg" />
               </audio>
             </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              adjective
-            </Typography>
+            <Typography
+              className={classes.pos}
+              color="textSecondary"
+            ></Typography>
             <Typography variant="body2" component="p">
-              {SlideText}
+              {definition.split("\n").map(function(item, key) {
+                return (
+                  <span key={key}>
+                    {item}
+                    <br />
+                  </span>
+                )
+              })}
             </Typography>
           </CardContent>
         </Card>
