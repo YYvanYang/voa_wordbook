@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { Fragment, useState, useEffect, useRef } from "react"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { graphql } from "gatsby"
@@ -73,7 +73,7 @@ export default function Word({
         ele.removeEventListener("ended", reset)
       }
     }
-  }, [audioEl.current])
+  }, [])
 
   function onPlay() {
     if (audioEl.current.canplay || audioEl.current.paused) {
@@ -113,12 +113,7 @@ export default function Word({
             ></Typography>
             <Typography variant="body2" component="p">
               {definition.split("\n").map(function(item, key) {
-                return (
-                  <span key={key}>
-                    {item}
-                    <br />
-                  </span>
-                )
+                return <Fragment key={key}>{item}<br/></Fragment>
               })}
             </Typography>
           </CardContent>
