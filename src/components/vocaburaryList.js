@@ -52,7 +52,7 @@ const VOCABURARY_LIST = [
 const VocaburaryList = () => {
   const classes = useStyles()
 
-  const currVocaburary = "interactive"
+  const currVocaburary = "business"
   const [vocaburaryMenu, setVocaburaryMenu] = React.useState(null)
   const handleVocaburaryIconClick = event => {
     setVocaburaryMenu(event.currentTarget)
