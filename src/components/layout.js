@@ -7,6 +7,7 @@
 
 import React from "react"
 import ButtonLink from "../components/ButtonLink"
+import VocaburaryList from "../components/vocaburaryList"
 import { Link } from "gatsby"
 import { useStaticQuery, graphql } from "gatsby"
 
@@ -27,6 +28,7 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
 import QueueMusicIcon from "@material-ui/icons/QueueMusic"
+import Grid from "@material-ui/core/Grid"
 
 const drawerWidth = 120
 
@@ -91,6 +93,13 @@ const useStyles = makeStyles(theme => ({
     marginRight: 10,
     marginBottom: 10,
   },
+  vocaburary: {
+    margin: theme.spacing(0, 0.5, 0, 1),
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "block",
+    },
+  },
 }))
 
 const Layout = ({ children }) => {
@@ -152,17 +161,26 @@ const Layout = ({ children }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            <Link
-              to="/"
-              style={{
-                color: `white`,
-                textDecoration: `none`,
-              }}
-            >
-              {data.site.siteMetadata.title}
-            </Link>
-          </Typography>
+          <Grid
+            container
+            direction="row"
+            justify="space-between"
+            alignItems="center"
+          >
+            <Typography variant="h6" noWrap>
+              <Link
+                to="/"
+                style={{
+                  color: `white`,
+                  textDecoration: `none`,
+                }}
+              >
+                {data.site.siteMetadata.title}
+              </Link>
+            </Typography>
+
+            <VocaburaryList />
+          </Grid>
         </Toolbar>
       </AppBar>
       <Drawer
