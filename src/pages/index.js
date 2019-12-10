@@ -2,18 +2,16 @@ import React from "react"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-
+import Phrase from "../components/phrase"
 import { graphql } from "gatsby"
 
 import clsx from "clsx"
 import { makeStyles } from "@material-ui/core/styles"
 
-import Avatar from "@material-ui/core/Avatar"
-import Chip from "@material-ui/core/Chip"
-
 const useStyles = makeStyles(() => ({
   label: {
     textTransform: "capitalize",
+    cursor: "pointer",
   },
   letter: {
     marginRight: 10,
@@ -28,12 +26,10 @@ const IndexPage = ({ data }) => {
     <Layout>
       <SEO title="Home" />
       {data.allPresentationXml.edges.map(({ node }) => (
-        <Chip
+        <Phrase
           key={node.Title}
-          color="primary"
-          label={node.Title}
-          className={clsx(classes.label, classes.letter)}
-          avatar={<Avatar>{node.letter}</Avatar>}
+          node={node}
+          cls={clsx(classes.label, classes.letter)}
         />
       ))}
     </Layout>

@@ -91,8 +91,7 @@ export default function Word({
         <Card key={node.name} className={classes.card}>
           <CardContent>
             <Typography variant="h5" component="h2">
-              {Title}{' '}
-
+              {Title}{" "}
               <IconButton
                 size="small"
                 color={iconColor}
@@ -101,7 +100,6 @@ export default function Word({
               >
                 <AudiotrackIcon />
               </IconButton>
-
               <audio ref={audioEl}>
                 Your browser does not support the <code>audio</code> element.
                 <source src={node.publicURL} type="audio/mpeg" />
@@ -113,7 +111,12 @@ export default function Word({
             ></Typography>
             <Typography variant="body2" component="p">
               {definition.split("\n").map(function(item, key) {
-                return <Fragment key={key}>{item}<br/></Fragment>
+                return (
+                  <Fragment key={key}>
+                    {item}
+                    <br />
+                  </Fragment>
+                )
               })}
             </Typography>
           </CardContent>

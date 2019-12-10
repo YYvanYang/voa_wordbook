@@ -7,7 +7,7 @@
 
 import React from "react"
 import ButtonLink from "../components/ButtonLink"
-
+import { Link } from "gatsby"
 import { useStaticQuery, graphql } from "gatsby"
 
 import clsx from "clsx"
@@ -153,7 +153,15 @@ const Layout = ({ children }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            {data.site.siteMetadata.title}
+            <Link
+              to="/"
+              style={{
+                color: `white`,
+                textDecoration: `none`,
+              }}
+            >
+              {data.site.siteMetadata.title}
+            </Link>
           </Typography>
         </Toolbar>
       </AppBar>
