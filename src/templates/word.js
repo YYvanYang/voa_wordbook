@@ -37,19 +37,20 @@ export default function Word({
 
   useEffect(() => {
     function formatText(text) {
-      const pattern = /(.+)\s(Definition:)\s(\2.+)/
+      const pattern = /(Definition:)\s(\2.+)/
       const regex = new RegExp(pattern, "ig")
 
       let array1 = regex.exec(text)
 
       if (array1 !== null) {
-        let def = array1[3]
+        let def = array1[2]
 
         if (def) {
           def = def
             .replace(/\s{5,}/g, "\n")
             .replace(/(Synonyms:)\s?\1/, "$1")
             .replace(/(Examples:)\s?\1/, "$1")
+            .replace(/(Dialogue:)\s?\1/, "$1")
           setDefinition(def)
         }
       }

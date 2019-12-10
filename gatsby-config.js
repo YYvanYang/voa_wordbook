@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `VOA Wordbook`,
-    description: `VOA wordbook`,
+    title: `Business Wordbook`,
+    description: `Business wordbook`,
     author: `yvan`,
   },
   plugins: [
