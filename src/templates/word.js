@@ -51,6 +51,8 @@ export default function Word({
             .replace(/(Synonyms:)\s?\1/, "$1")
             .replace(/(Examples:)\s?\1/, "$1")
             .replace(/(Dialogue:)\s?\1/, "$1")
+            .replace(/(Usage:)\s?\1/, "$1")
+            .replace(/(Sample Dialogue:)\s?\1/, "$1")
           setDefinition(def)
         }
       }

@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
-    title: `Health Wordbook`,
-    description: `Health wordbook`,
+    title: `Idiom Wordbook`,
+    description: `Idiom wordbook`,
     author: `yvan`,
   },
   plugins: [

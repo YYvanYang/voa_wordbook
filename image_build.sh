@@ -12,7 +12,7 @@ fi
 unset $(grep -v '^#' .env | sed -E 's/(.*)=.*/\1/' | xargs)
 export $(grep -v '^#' .env | xargs)
 
-docker build -t health/wordbook .
+docker build -t idiom/wordbook .
 
 echo "Remove unused images."
 docker image prune --force
