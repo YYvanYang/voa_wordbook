@@ -7,7 +7,7 @@
 
 import React from "react"
 import ButtonLink from "../components/ButtonLink"
-import VocaburaryList from "../components/vocaburaryList"
+import HeaderRight from "../components/headerRight"
 import { Link } from "gatsby"
 import { useStaticQuery, graphql } from "gatsby"
 
@@ -179,8 +179,7 @@ const Layout = ({ children }) => {
                 {data.site.siteMetadata.title}
               </Link>
             </Typography>
-
-            <VocaburaryList />
+            <HeaderRight />
           </Grid>
         </Toolbar>
       </AppBar>

@@ -5,7 +5,7 @@
  * See: https://www.gatsbyjs.org/docs/use-static-query/
  */
 
-import React from "react"
+import React, { useState } from "react"
 
 import { makeStyles } from "@material-ui/core/styles"
 import Tooltip from "@material-ui/core/Tooltip"
@@ -15,9 +15,15 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import NoSsr from "@material-ui/core/NoSsr"
 import Menu from "@material-ui/core/Menu"
 import MenuItem from "@material-ui/core/MenuItem"
+import Repeat from "../components/Repeat"
 
 const useStyles = makeStyles(theme => ({
-  vocaburary: {
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  list: {
     margin: theme.spacing(0, 0.5, 0, 1),
     display: "none",
     [theme.breakpoints.up("md")]: {
@@ -49,11 +55,14 @@ const VOCABURARY_LIST = [
   },
 ]
 
-const VocaburaryList = () => {
+const HeaderRight = () => {
   const classes = useStyles()
 
   const currVocaburary = "interactive"
-  const [vocaburaryMenu, setVocaburaryMenu] = React.useState(null)
+  const [vocaburaryMenu, setVocaburaryMenu] = useState(null)
+
+  const [repeatOne, SetRepeatOne] = useState(false)
+
   const handleVocaburaryIconClick = event => {
     setVocaburaryMenu(event.currentTarget)
   }
@@ -61,12 +70,19 @@ const VocaburaryList = () => {
     setVocaburaryMenu(null)
   }
 
+  const onRepeat = () => {
+    SetRepeatOne(!repeatOne)
+  }
+
   return (
-    <>
+    <div className={classes.root}>
+      <Tooltip title={"Repeat Setting"} enterDelay={300}>
+        <Repeat repeatOne={repeatOne} onRepeat={onRepeat} />
+      </Tooltip>
       <Tooltip title={"Change Vocaburary"} enterDelay={300}>
         <Button color="inherit" onClick={handleVocaburaryIconClick}>
           <ExtensionIcon />
-          <span className={classes.vocaburary}>
+          <span className={classes.list}>
             {
               VOCABURARY_LIST.filter(
                 language => language.code === currVocaburary
@@ -96,8 +112,8 @@ const VocaburaryList = () => {
           ))}
         </Menu>
       </NoSsr>
-    </>
+    </div>
   )
 }
 
-export default VocaburaryList
+export default HeaderRight

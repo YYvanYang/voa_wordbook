@@ -57,7 +57,7 @@ module.exports = async ({ graphql, actions }) => {
   const allWords = await graphql(
     `
       {
-        allPresentationXml {
+        allPresentationXml(sort: { fields: Title, order: DESC }) {
           edges {
             node {
               Title
