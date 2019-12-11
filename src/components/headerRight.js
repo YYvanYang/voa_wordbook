@@ -61,8 +61,6 @@ const HeaderRight = () => {
   const currVocaburary = "interactive"
   const [vocaburaryMenu, setVocaburaryMenu] = useState(null)
 
-  const [repeatOne, SetRepeatOne] = useState(false)
-
   const handleVocaburaryIconClick = event => {
     setVocaburaryMenu(event.currentTarget)
   }
@@ -70,14 +68,10 @@ const HeaderRight = () => {
     setVocaburaryMenu(null)
   }
 
-  const onRepeat = () => {
-    SetRepeatOne(!repeatOne)
-  }
-
   return (
     <div className={classes.root}>
       <Tooltip title={"Repeat Setting"} enterDelay={300}>
-        <Repeat repeatOne={repeatOne} onRepeat={onRepeat} />
+        <Repeat />
       </Tooltip>
       <Tooltip title={"Change Vocaburary"} enterDelay={300}>
         <Button color="inherit" onClick={handleVocaburaryIconClick}>
