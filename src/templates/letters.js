@@ -40,7 +40,10 @@ export default IndexPage
 
 export const query = graphql`
   query($letter: String) {
-    allPresentationXml(filter: { letter: { eq: $letter } }) {
+    allPresentationXml(
+      filter: { letter: { eq: $letter } }
+      sort: { fields: Title, order: ASC }
+    ) {
       edges {
         node {
           Title
