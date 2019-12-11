@@ -4678,10 +4678,10 @@ gatsby-transformer-sharp@^2.3.6:
     semver "^5.7.1"
     sharp "^0.23.3"
 
-gatsby-transformer-voaxml@1.0.5:
-  version "1.0.5"
-  resolved "https://npm.yvan.top/gatsby-transformer-voaxml/-/gatsby-transformer-voaxml-1.0.5.tgz#9a6fbedbfb9b641d56786680a78bea7c49de1586"
-  integrity sha512-OGSvBtzL0HiREXtXW8xhZz7Q1J/2NGFOfpO6oYfxkpiQ3p2XTUgH0N3x4RKV8IetywheXN1tG1HHn4I6rk2OQw==
+gatsby-transformer-voaxml@1.0.7:
+  version "1.0.7"
+  resolved "https://npm.yvan.top/gatsby-transformer-voaxml/-/gatsby-transformer-voaxml-1.0.7.tgz#809b36042a4b27d7b211a438a1497b3d04cc732f"
+  integrity sha512-1n9UPozcs5qL5CwahhDelI7VrcWjYeWVs8AJTdp94DCdHZIGPl3AnSbvRrKATgMRUtYP096R10ywZpkEb6FBsg==
   dependencies:
     "@babel/runtime" "^7.7.4"
     fast-xml-parser "^3.15.0"
