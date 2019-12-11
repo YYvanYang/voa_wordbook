@@ -8,6 +8,12 @@ import CardContent from "@material-ui/core/CardContent"
 import Typography from "@material-ui/core/Typography"
 import AudiotrackIcon from "@material-ui/icons/Audiotrack"
 import IconButton from "@material-ui/core/IconButton"
+import CardActions from "@material-ui/core/CardActions"
+import Phrase from "../components/phrase"
+import clsx from "clsx"
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
+import ChevronRightIcon from "@material-ui/icons/ChevronRight"
+import Grid from "@material-ui/core/Grid"
 
 const useStyles = makeStyles({
   card: {
@@ -28,7 +34,7 @@ const useStyles = makeStyles({
 
 export default function Word({
   data,
-  pageContext: { name: Title, SlideText },
+  pageContext: { name: Title, SlideText, prev, next },
 }) {
   const classes = useStyles()
   const audioEl = useRef(null)
@@ -51,6 +57,7 @@ export default function Word({
             .replace(/(Synonyms:)\s?\1/, "$1")
             .replace(/(Examples:)\s?\1/, "$1")
             .replace(/(Dialogue:)\s?\1/, "$1")
+            .replace(/(Related forms:)\s?\1/, "$1")
           setDefinition(def)
         }
       }
@@ -121,6 +128,29 @@ export default function Word({
               })}
             </Typography>
           </CardContent>
+          <CardActions>
+            <Grid
+              container
+              direction="row"
+              justify="space-between"
+              alignItems="center"
+            >
+              {prev && (
+                <Phrase
+                  node={prev}
+                  avatar={<ChevronLeftIcon />}
+                  cls={clsx(classes.label, classes.letter)}
+                />
+              )}
+              {next && (
+                <Phrase
+                  node={next}
+                  avatar={<ChevronRightIcon />}
+                  cls={clsx(classes.label, classes.letter)}
+                />
+              )}
+            </Grid>
+          </CardActions>
         </Card>
       ))}
     </Layout>

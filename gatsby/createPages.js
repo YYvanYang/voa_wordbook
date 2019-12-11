@@ -88,7 +88,19 @@ module.exports = async ({ graphql, actions }) => {
     throw Error(allWords.errors)
   }
 
-  allWords.data.allPresentationXml.edges.forEach(edge => {
+  const edges = allWords.data.allPresentationXml.edges
+
+  for (let index = 0; index < edges.length; index++) {
+    const edge = edges[index]
+    let prev = null
+    let next = null
+    if (index > 0) {
+      prev = edges[index - 1].node
+    }
+    if (index < edges.length - 1) {
+      next = edges[index + 1].node
+    }
+
     const { Title, SlideText, letter } = edge.node
     const createwordPage = path =>
       createPage({
@@ -98,10 +110,12 @@ module.exports = async ({ graphql, actions }) => {
           name: Title,
           SlideText,
           letter,
+          prev,
+          next,
         },
       })
 
     // Register primary URL.
     createwordPage(`/${letter}/${Title}`)
-  })
+  }
 }

@@ -131,7 +131,8 @@ const Layout = ({ children }) => {
         filter: {
           sourceInstanceName: { eq: "words" }
           relativeDirectory: { eq: "" }
-        }
+        },
+        sort: {order: ASC, fields: name}
       ) {
         edges {
           node {
