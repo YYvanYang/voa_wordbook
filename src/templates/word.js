@@ -127,7 +127,7 @@ function Word({
     }
   }
   let firstItem = data.allFile.edges[0] || {}
-  let firstNode = firstItem.node
+  let firstNode = firstItem.node || {}
 
   return (
     <Layout>
