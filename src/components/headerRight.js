@@ -70,9 +70,7 @@ const HeaderRight = () => {
 
   return (
     <div className={classes.root}>
-      <Tooltip title={"Repeat Setting"} enterDelay={300}>
-        <Repeat />
-      </Tooltip>
+      <Repeat />
       <Tooltip title={"Change Vocaburary"} enterDelay={300}>
         <Button color="inherit" onClick={handleVocaburaryIconClick}>
           <ExtensionIcon />

@@ -24,7 +24,7 @@ const IndexPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title="Home" />
+      <SEO title="VOA" />
       {data.allPresentationXml.edges.map(({ node }) => (
         <Phrase
           key={node.Title}

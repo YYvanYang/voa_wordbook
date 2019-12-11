@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from "react"
+import { connect } from "react-redux"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { graphql } from "gatsby"
@@ -14,6 +15,7 @@ import clsx from "clsx"
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
 import ChevronRightIcon from "@material-ui/icons/ChevronRight"
 import Grid from "@material-ui/core/Grid"
+import { navigate } from "@reach/router"
 
 const useStyles = makeStyles({
   card: {
@@ -40,9 +42,10 @@ const useStyles = makeStyles({
   },
 })
 
-export default function Word({
+function Word({
   data,
   pageContext: { name: Title, SlideText, prev, next },
+  repeatType,
 }) {
   const classes = useStyles()
   const audioEl = useRef(null)
@@ -73,24 +76,49 @@ export default function Word({
   }, [SlideText])
 
   useEffect(() => {
-    let ele = audioEl.current
-    if (ele) {
-      ele.addEventListener("ended", reset)
+    let player = audioEl.current
+    if (player) {
+      switch (repeatType) {
+        case null:
+          player.loop = false
+          player.autoplay = false
+          break
+        case "one":
+          player.loop = true
+          player.autoplay = false
+          break
+        case "all":
+          player.loop = false
+          player.autoplay = true
+
+          onPlay()
+          break
+        default:
+          break
+      }
     }
 
-    function reset() {
+    function ended() {
       setIconColor("secondary")
+      if (repeatType === "all") {
+        // go to next vocaburary card
+        let node = next
+        if (node) {
+          navigate(`/${node.letter}/${node.Title}/`)
+        }
+      }
     }
 
     return () => {
-      if (ele) {
-        ele.removeEventListener("ended", reset)
+      if (player) {
+        player.removeEventListener("ended", ended)
       }
     }
-  }, [])
+  }, [repeatType, next])
 
   function onPlay() {
     if (audioEl.current.canplay || audioEl.current.paused) {
+      audioEl.current.currentTime = 0
       audioEl.current.play()
       setIconColor("primary")
     } else {
@@ -98,9 +126,12 @@ export default function Word({
       setIconColor("secondary")
     }
   }
+  let firstItem = data.allFile.edges[0] || {}
+  let firstNode = firstItem.node
+
   return (
     <Layout>
-      <SEO title="Home" />
+      <SEO title={firstNode.name || "VOA"} />
       {data.allFile.edges.map(({ node }) => (
         <Card key={node.name} className={classes.card}>
           <CardContent>
@@ -162,6 +193,12 @@ export default function Word({
     </Layout>
   )
 }
+
+const mapStateToProps = ({ repeatType }) => {
+  return { repeatType }
+}
+
+export default connect(mapStateToProps, null)(Word)
 
 export const query = graphql`
   query($name: String) {
