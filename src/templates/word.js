@@ -16,6 +16,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft"
 import ChevronRightIcon from "@material-ui/icons/ChevronRight"
 import Grid from "@material-ui/core/Grid"
 import { navigate } from "@reach/router"
+// or import { navigate } from "gatsby"
 
 const useStyles = makeStyles({
   card: {
@@ -104,7 +105,9 @@ function Word({
         // go to next vocaburary card
         let node = next
         if (node) {
-          navigate(`/${node.letter}/${node.Title}/`)
+          setTimeout(() => {
+            navigate(`/${node.letter}/${node.Title}/`)
+          }, 500);
         }
       }
     }
