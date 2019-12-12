@@ -77,22 +77,21 @@ function Word({
   }, [SlideText])
 
   useEffect(() => {
-    let player = audioEl.current
-    if (player) {
+    if (audioEl.current) {
+      audioEl.current.addEventListener("ended", ended)
       switch (repeatType) {
         case null:
-          player.loop = false
-          player.autoplay = false
+          audioEl.current.loop = false
           break
         case "one":
-          player.loop = true
-          player.autoplay = false
+          audioEl.current.loop = true
           break
         case "all":
-          player.loop = false
-          player.autoplay = true
-
-          onPlay()
+          audioEl.current.loop = false
+          setTimeout(() => {
+            onPlay()
+          }, 500);
+          
           break
         default:
           break
@@ -113,9 +112,6 @@ function Word({
     }
 
     return () => {
-      if (player) {
-        player.removeEventListener("ended", ended)
-      }
     }
   }, [repeatType, next])
 
