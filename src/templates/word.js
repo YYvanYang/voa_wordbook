@@ -90,8 +90,8 @@ function Word({
           audioEl.current.loop = false
           setTimeout(() => {
             onPlay()
-          }, 500);
-          
+          }, 500)
+
           break
         default:
           break
@@ -106,13 +106,12 @@ function Word({
         if (node) {
           setTimeout(() => {
             navigate(`/${node.letter}/${node.Title}/`)
-          }, 500);
+          }, 500)
         }
       }
     }
 
-    return () => {
-    }
+    return () => {}
   }, [repeatType, next])
 
   function onPlay() {

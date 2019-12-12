@@ -10,6 +10,7 @@ import ButtonLink from "../components/ButtonLink"
 import HeaderRight from "../components/headerRight"
 import { Link } from "gatsby"
 import { useStaticQuery, graphql } from "gatsby"
+import { connect } from "react-redux"
 
 import clsx from "clsx"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
@@ -101,21 +102,20 @@ const useStyles = makeStyles(theme => ({
     },
   },
   nemuLink: {
-    backgroundColor: 'inherit'
-  }
+    backgroundColor: "inherit",
+  },
 }))
 
-const Layout = ({ children, location }) => {
+const Layout = ({ children, doOpen, open }) => {
   const classes = useStyles()
   const theme = useTheme()
-  const [open, setOpen] = React.useState(false)
 
   const handleDrawerOpen = () => {
-    setOpen(true)
+    doOpen()
   }
 
   const handleDrawerClose = () => {
-    setOpen(false)
+    doOpen()
   }
 
   const data = useStaticQuery(graphql`
@@ -181,6 +181,7 @@ const Layout = ({ children, location }) => {
           </Grid>
         </Toolbar>
       </AppBar>
+
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -202,13 +203,13 @@ const Layout = ({ children, location }) => {
         <Divider />
         <List>
           {data.allDirectory.edges.map(({ node }, index) => (
-            <ButtonLink key={node.name} to={`/${node.name}/`} activeStyle={{ backgroundColor: "rgba(0, 0, 0, 0.14)" }}
-            partiallyActive={true}>
-              <ListItem
-                button
-                key={node.name}
-                className={classes.nemuLink}
-              >
+            <ButtonLink
+              key={node.name}
+              to={`/${node.name}/`}
+              activeStyle={{ backgroundColor: "rgba(0, 0, 0, 0.14)" }}
+              partiallyActive={true}
+            >
+              <ListItem button key={node.name} className={classes.nemuLink}>
                 <ListItemIcon>
                   <QueueMusicIcon />
                 </ListItemIcon>
@@ -219,6 +220,7 @@ const Layout = ({ children, location }) => {
         </List>
         <Divider />
       </Drawer>
+
       <main
         className={clsx(classes.content, {
           [classes.contentShift]: open,
@@ -231,4 +233,12 @@ const Layout = ({ children, location }) => {
   )
 }
 
-export default Layout
+const mapStateToProps = ({ open }) => {
+  return { open }
+}
+
+const mapDispatchToProps = dispatch => {
+  return { doOpen: () => dispatch({ type: `DRAWER_OPEN` }) }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout)

@@ -5,6 +5,8 @@ const reducer = (state, action) => {
     case `REPEAT_TYPE`:
       let repeatType = updateType(state)
       return { ...state, repeatType }
+    case `DRAWER_OPEN`:
+      return { ...state, open: !state.open }
     default:
       return state
   }
@@ -23,8 +25,8 @@ function updateType(state) {
   }
 }
 
-// null, one, all
-const initialState = { repeatType: null }
+// repeatType: null, one, all
+const initialState = { repeatType: null, open: false }
 
 const createStore = () => reduxCreateStore(reducer, initialState)
 export default createStore
