@@ -100,13 +100,15 @@ const useStyles = makeStyles(theme => ({
       display: "block",
     },
   },
+  nemuLink: {
+    backgroundColor: 'inherit'
+  }
 }))
 
-const Layout = ({ children }) => {
+const Layout = ({ children, location }) => {
   const classes = useStyles()
   const theme = useTheme()
   const [open, setOpen] = React.useState(false)
-  const [letter, setLetter] = React.useState("a")
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -114,10 +116,6 @@ const Layout = ({ children }) => {
 
   const handleDrawerClose = () => {
     setOpen(false)
-  }
-
-  const handleListItemClick = (event, letter) => {
-    setLetter(letter)
   }
 
   const data = useStaticQuery(graphql`
@@ -204,12 +202,12 @@ const Layout = ({ children }) => {
         <Divider />
         <List>
           {data.allDirectory.edges.map(({ node }, index) => (
-            <ButtonLink key={node.name} to={`/${node.name}/`}>
+            <ButtonLink key={node.name} to={`/${node.name}/`} activeStyle={{ backgroundColor: "rgba(0, 0, 0, 0.14)" }}
+            partiallyActive={true}>
               <ListItem
                 button
                 key={node.name}
-                selected={letter === node.name}
-                onClick={event => handleListItemClick(event, node.name)}
+                className={classes.nemuLink}
               >
                 <ListItemIcon>
                   <QueueMusicIcon />
