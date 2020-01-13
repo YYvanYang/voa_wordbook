@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useRef } from "react"
+import React, { Fragment, useState, useEffect } from "react"
 import { connect } from "react-redux"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -17,6 +17,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight"
 import Grid from "@material-ui/core/Grid"
 import { navigate } from "@reach/router"
 // or import { navigate } from "gatsby"
+import { play, stop } from "../play"
 
 const useStyles = makeStyles({
   card: {
@@ -49,7 +50,6 @@ function Word({
   repeatType,
 }) {
   const classes = useStyles()
-  const audioEl = useRef(null)
   const [definition, setDefinition] = useState("")
   const [iconColor, setIconColor] = useState("secondary")
 
@@ -77,51 +77,36 @@ function Word({
   }, [SlideText])
 
   useEffect(() => {
-    if (audioEl.current) {
-      audioEl.current.addEventListener("ended", ended)
-      switch (repeatType) {
-        case null:
-          audioEl.current.loop = false
-          break
-        case "one":
-          audioEl.current.loop = true
-          break
-        case "all":
-          audioEl.current.loop = false
-          setTimeout(() => {
-            onPlay()
-          }, 500)
-
-          break
-        default:
-          break
-      }
-    }
-
-    function ended() {
-      setIconColor("secondary")
-      if (repeatType === "all") {
-        // go to next vocaburary card
-        let node = next
-        if (node) {
-          setTimeout(() => {
-            navigate(`/${node.letter}/${node.Title}/`)
-          }, 500)
-        }
-      }
+    if (repeatType === "all") {
+      let node = data.allFile.edges[0].node
+      onPlay(node)
     }
 
     return () => {}
-  }, [repeatType, next])
+  }, [repeatType, data.allFile.edges[0].node])
 
-  function onPlay() {
-    if (audioEl.current.canplay || audioEl.current.paused) {
-      audioEl.current.currentTime = 0
-      audioEl.current.play()
+  function onended() {
+    setIconColor("secondary")
+    if (repeatType === "all") {
+      // go to next vocaburary card
+      let node = next
+      if (node) {
+        setTimeout(() => {
+          navigate(`/${node.letter}/${node.Title}/`)
+        }, 500)
+      }
+    }
+  }
+
+  function onPlay(node) {
+    if (iconColor === "secondary") {
       setIconColor("primary")
+      setTimeout(() => {
+        node && play(node.publicURL, onended)
+      }, 500)
     } else {
-      audioEl.current.pause()
       setIconColor("secondary")
+      stop()
     }
   }
   let firstItem = data.allFile.edges[0] || {}
@@ -139,14 +124,10 @@ function Word({
                 size="small"
                 color={iconColor}
                 aria-label="play"
-                onClick={onPlay}
+                onClick={() => onPlay(node)}
               >
                 <AudiotrackIcon />
               </IconButton>
-              <audio ref={audioEl}>
-                Your browser does not support the <code>audio</code> element.
-                <source src={node.publicURL} type="audio/mpeg" />
-              </audio>
             </Typography>
             <Typography
               className={classes.pos}
